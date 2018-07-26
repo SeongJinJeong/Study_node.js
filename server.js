@@ -1,34 +1,30 @@
 const express = require('express');
-const cors = require('cors');
-const compression = require('compression');
 const path = require('path');
 const app = express();
-const route = require('./router.js');
 
-app.use('/',route);
-app.use(cors());
-app.use(compression());
-app.use(function(req,res,next){
-	res.status(404).send('일치하는 주소가 없습니다.');
-	next();
-});
-app.use(function(err,req,res,next){
-	console.error(err.stack);
-	res.status(500).send('서버에러!');
-})
+app.use(express.static('html'));
 
 
 
-app.use(express.static(path.join(__dirname,'html')));
 app.get('/',function(req,res){
 	res.sendFile(path.join(__dirname,'html','hello world.html'));
 });
-app.get('/about',function(req,res){
-	res.sendFile(path.join(__dirname,'html','about.html'));
+app.get('/login',function(req,res){
+	res.sendFile(path.join(__dirname,'html','login.html'));
+});
+app.get('/login_server',function(req,res){
+	var id = req.query.ID;
+	var passwd = req.query.passwd;
+
+	if(id == "jsj" && passwd == "jsh8689"){
+		res.send('Login Complete!');
+	}
+	else{
+		res.send('Login Denied!');
+	}
 })
 
 
-
 app.listen(8080,function(){
-	console.log('Express is Successfully Activated on Port: 8080!');
-});
+	console.log("Server activated at 8080 port!");
+})
