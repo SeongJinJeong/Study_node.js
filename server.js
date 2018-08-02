@@ -3,6 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 
+app.set('view engine','jade');
+app.set('views','./views');
 app.use(express.static('html'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
